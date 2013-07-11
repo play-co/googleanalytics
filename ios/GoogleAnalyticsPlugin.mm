@@ -1,7 +1,7 @@
-#import "AdMobPlugin.h"
+#import "GoogleAnalyticsPlugin.h"
 #import "GAI.h"
 
-@implementation AdMobPlugin
+@implementation GoogleAnalyticsPlugin
 
 // The plugin must call super dealloc.
 - (void) dealloc {
@@ -21,7 +21,7 @@
 - (void) initializeWithManifest:(NSDictionary *)manifest appDelegate:(TeaLeafAppDelegate *)appDelegate {
 	@try {
 		NSDictionary *ios = [manifest valueForKey:@"ios"];
-		NSString *trackingId = [ios valueForKey:@"adMobTrackingId"];
+		NSString *trackingId = [ios valueForKey:@"googleTrackingID"];
 
 		// Initialize Google Analytics with a 120-second dispatch interval. There is a
 		// tradeoff between battery usage and timely dispatch.
@@ -30,10 +30,10 @@
 		[GAI sharedInstance].trackUncaughtExceptions = YES;
 		self.tracker = [[GAI sharedInstance] trackerWithTrackingId:trackingId];
 
-		NSLog(@"{admob} Initialized with manifest adMobTrackingId: '%@'", trackingId);
+		NSLog(@"{googleAnalytics} Initialized with manifest googleTrackingID: '%@'", trackingId);
 	}
 	@catch (NSException *exception) {
-		NSLog(@"{admob} Failure to get ios:adMobTrackingId key from manifest file: %@", exception);
+		NSLog(@"{googleAnalytics} Failure to get ios:googleTrackingID key from manifest file: %@", exception);
 	}
 }
 
@@ -43,10 +43,10 @@
 		
 		NSDictionary *evtParams = [jsonObject objectForKey:@"params"];
 		[self.tracker send:eventName params:evtParams];
-		NSLOG(@"{admob} Delivered event '%@' with %d params", eventName, (int)[evtParams count]);
+		NSLOG(@"{googleAnalytics} Delivered event '%@' with %d params", eventName, (int)[evtParams count]);
 	}
 	@catch (NSException *exception) {
-		NSLOG(@"{admob} Exception while processing event: ", exception);
+		NSLOG(@"{googleAnalytics} Exception while processing event: ", exception);
 	}
 }
 

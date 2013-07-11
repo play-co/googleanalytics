@@ -1,7 +1,7 @@
 #import "PluginManager.h"
 #import "GAI.h"
 
-@interface AdMobPlugin : GCPlugin
+@interface GoogleAnalyticsPlugin : GCPlugin
 
 @property(nonatomic, retain) id<GAITracker> tracker;
 
