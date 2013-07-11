@@ -6,9 +6,11 @@ import java.io.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.Iterator;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+import com.google.analytics.tracking.android.GAServiceManager;
 
 import android.app.Activity;
 import android.content.Intent;
