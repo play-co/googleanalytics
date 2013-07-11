@@ -1,5 +1,6 @@
 #import "GoogleAnalyticsPlugin.h"
 #import "GAI.h"
+#import "JSONKit.h"
 
 @implementation GoogleAnalyticsPlugin
 
@@ -40,10 +41,29 @@
 - (void) track:(NSDictionary *)jsonObject {
 	@try {
 		NSString *eventName = [jsonObject valueForKey:@"eventName"];
-		
+
 		NSDictionary *evtParams = [jsonObject objectForKey:@"params"];
-		[self.tracker send:eventName params:evtParams];
-		NSLOG(@"{googleAnalytics} Delivered event '%@' with %d params", eventName, (int)[evtParams count]);
+
+		if ([evtParams count] == 1) {
+			NSString *key0 = [[evtParams allKeys] objectAtIndex:0];
+			NSString *value0 = [[evtParams allValues] objectAtIndex:0];
+
+			[self.tracker sendEventWithCategory:eventName
+									 withAction:key0
+									  withLabel:value0
+									  withValue:nil];
+
+			NSLOG(@"{googleAnalytics} Delivered event '%@' : action=%@ label=%@", eventName, key0, value0);
+		} else {
+			NSString *jsonString = [evtParams JSONString];
+
+			[self.tracker sendEventWithCategory:eventName
+									 withAction:@"JSON"
+									  withLabel:jsonString
+									  withValue:nil];
+
+			NSLOG(@"{googleAnalytics} Delivered event '%@' : action=JSON label=%@", eventName, jsonString);
+		}
 	}
 	@catch (NSException *exception) {
 		NSLOG(@"{googleAnalytics} Exception while processing event: ", exception);
