@@ -1,0 +1,15 @@
+{
+	"code": [
+		"GAI.h",
+		"GAITrackedViewController.h",
+		"GAITracker.h",
+		"GAITransaction.h",
+		"GAITransactionItem.h",
+		"AdMobPlugin.h",
+		"AdMobPlugin.mm"
+	],
+	"frameworks": [
+		"CoreData",
+		"libGoogleAnalytics.a"
+	]
+}
