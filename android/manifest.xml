@@ -1,0 +1,6 @@
+<!--START_PLUGINS_MANIFEST-->
+<!--END_PLUGINS_MANIFEST-->
+<!--START_PLUGINS_APPLICATION-->
+	<!--Google Analytics-->
+	<meta-data android:name="GOOGLE_TRACKING_ID" android:value="" />
+<!--END_PLUGINS_APPLICATION-->
