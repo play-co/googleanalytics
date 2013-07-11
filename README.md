@@ -65,3 +65,16 @@ googleAnalytics.track("myEvent", {
 Your events will be logged with category = event name.  If you specifiy just one key in the event object, then: action = key name, label = key value.  If you specify multiple keys in the event objects, then: action = "JSON" and label = JSON string.
 
 You can test for successful integration via the [Google Analytics](https://www.google.com/analytics/) website after successfully building and running your game on a network-connected device.  Also check the console for helpful debug messages.
+
+You should see console logs like this:
+
+~~~
+E/JS      ( 5978): {googleAnalytics} Initializing from manifest with googleTrackingID= UA-42399544-1
+
+…
+
+D/JS      ( 5978): LOG plugins.googleanalytics.googleAnalytics {googleAnalytics} track:  AppStart [object Object]
+E/JS      ( 5978): {googleAnalytics} track - success: category= AppStart action='JSON' label= {"paramTest1":"valueTest1","paramTest2":"valueTest2"}
+D/JS      ( 5978): LOG plugins.googleanalytics.googleAnalytics {googleAnalytics} track:  UpgradePriceGroup [object Object]
+E/JS      ( 5978): {googleAnalytics} track - success: category= UpgradePriceGroup action= priceGroup label= B_CHEAPER
+~~~
