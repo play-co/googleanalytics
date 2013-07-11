@@ -5,8 +5,8 @@
 		"GAITracker.h",
 		"GAITransaction.h",
 		"GAITransactionItem.h",
-		"AdMobPlugin.h",
-		"AdMobPlugin.mm"
+		"GoogleAnalyticsPlugin.h",
+		"GoogleAnalyticsPlugin.mm"
 	],
 	"frameworks": [
 		"CoreData",
