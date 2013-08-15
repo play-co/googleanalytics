@@ -62,6 +62,8 @@ googleAnalytics.track("myEvent", {
 });
 ~~~
 
+Note that the second parameter to `track` should be an object even if it is one entry.
+
 Your events will be logged with category = event name.  If you specifiy just one key in the event object, then: action = key name, label = key value.  If you specify multiple keys in the event objects, then: action = "JSON" and label = JSON string.
 
 You can test for successful integration via the [Google Analytics](https://www.google.com/analytics/) website after successfully building and running your game on a network-connected device.  Also check the console for helpful debug messages.
