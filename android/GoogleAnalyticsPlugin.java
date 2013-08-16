@@ -85,7 +85,7 @@ public class GoogleAnalyticsPlugin implements IPlugin {
     }
 
 	public void trackScreen(String screenName) {
-		myGaTracker.sendView(screenName);
+		mGaTracker.sendView(screenName);
 	}
 
 	public void onResume() {
