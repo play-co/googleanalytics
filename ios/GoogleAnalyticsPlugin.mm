@@ -70,4 +70,8 @@
 	}
 }
 
+- (void) trackScreen:(NSString *)screenName {
+	[self.tracker sendView:screenName];
+}
+
 @end
