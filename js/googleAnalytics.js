@@ -6,10 +6,11 @@ var GoogleAnalytics = Class(function () {
 				JSON.stringify({ eventName: name, params: data }));
 	};
 
-	this.trackScreen = function (screenName) {
-		logger.log("{googleAnalytics} trackScreen: ", screenName);
+	this.trackScreen = function (name) {
+		logger.log("{googleAnalytics} trackScreen: ", name);
 		NATIVE && NATIVE.plugins && NATIVE.plugins.sendEvent &&
-			NATIVE.plugins.sendEvent("GoogleAnalyticsPlugin", "trackScreen", screenName);
+			NATIVE.plugins.sendEvent("GoogleAnalyticsPlugin", "trackScreen",
+				JSON.stringify(screenName: name));
 	};
 });
 

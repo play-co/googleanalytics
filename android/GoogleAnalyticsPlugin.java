@@ -84,8 +84,15 @@ public class GoogleAnalyticsPlugin implements IPlugin {
         }
     }
 
-	public void trackScreen(String screenName) {
-		mGaTracker.sendView(screenName);
+	public void trackScreen(String json) {
+		try
+		{
+			JSONObject obj = new JSONObject(json);
+			screenName = obj.getString("screenName");
+			mGaTracker.sendView(screenName);
+		} catch (JSONException e) {
+			logger.log("{googleAnalytics} trackScreen - failure: " + screenName + " - " + e.getMessage());
+		}
 	}
 
 	public void onResume() {

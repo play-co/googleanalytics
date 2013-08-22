@@ -70,8 +70,15 @@
 	}
 }
 
-- (void) trackScreen:(NSString *)screenName {
-	[self.tracker sendView:screenName];
+- (void) trackScreen:(NSDictionary *)jsonObject {
+	@try {
+		NSString *screenName = [jsonObject valueForKey:@"screenName"];
+		[self.tracker sendView:screenName];
+		NSLOG(@"{googleAnalytics} Delivered screen '%@'", screenName);
+	}
+	@catch (NSException *exception) {
+		NSLOG(@"{googleAnalytics} Exception while processing screen: ", exception);
+	}
 }
 
 @end
