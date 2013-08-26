@@ -10,7 +10,7 @@ var GoogleAnalytics = Class(function () {
 		logger.log("{googleAnalytics} trackScreen: ", name);
 		NATIVE && NATIVE.plugins && NATIVE.plugins.sendEvent &&
 			NATIVE.plugins.sendEvent("GoogleAnalyticsPlugin", "trackScreen",
-				JSON.stringify(screenName: name));
+				JSON.stringify({screenName: name}));
 	};
 });
 
