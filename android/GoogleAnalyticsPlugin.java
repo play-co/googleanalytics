@@ -10,7 +10,10 @@ import java.util.Iterator;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GAServiceManager;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.Logger.LogLevel;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -47,14 +50,19 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 		logger.log("{googleAnalytics} Initializing from manifest with googleTrackingID=", trackingID);
 
 		mGaInstance = GoogleAnalytics.getInstance(activity);
-		mGaInstance.setDebug(true);
-
-		GAServiceManager.getInstance().setDispatchPeriod(120);
+		mGaInstance.getLogger().setLogLevel(LogLevel.VERBOSE);
 
 		mGaTracker = mGaInstance.getTracker(trackingID);
+
+		mGaTracker.send(MapBuilder
+				.createEvent("UX", "appstart", null, null)
+				.set(Fields.SESSION_CONTROL, "start")
+				.build()
+				);
 	}
 
     public void track(String json) {
+		// TODO: Fix this
         String eventName = "noName";
         try {
             JSONObject obj = new JSONObject(json);
@@ -71,11 +79,17 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 					logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
 				}
 
-				mGaTracker.sendEvent(eventName, key, value, null);
+				mGaTracker.send(MapBuilder
+						.createEvent(eventName, key, value, null)
+						.build()
+						);
 				logger.log("{googleAnalytics} track - success: category=", eventName, "action=", key, "label=", value);
 			} else {
 				String value = paramsObj.toString();
-				mGaTracker.sendEvent(eventName, "JSON", value, null);
+				mGaTracker.send(MapBuilder
+						.createEvent(eventName, "JSON", value, null)
+						.build()
+						);
 				logger.log("{googleAnalytics} track - success: category=", eventName, "action='JSON' label=", value);
 			}
 
@@ -85,7 +99,9 @@ public class GoogleAnalyticsPlugin implements IPlugin {
     }
 
 	public void trackScreen(String screenName) {
-		mGaTracker.sendView(screenName);
+		mGaTracker.set(Fields.SCREEN_NAME, screenName);
+
+		mGaTracker.send(MapBuilder.createAppView().build());
 	}
 
 	public void onResume() {

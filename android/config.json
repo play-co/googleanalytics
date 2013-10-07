@@ -1,7 +1,7 @@
 {
     "copyFiles": ["GoogleAnalyticsPlugin.java"],
     "libraries": [],
-    "jars": ["libGoogleAnalyticsV2.jar"],
+    "jars": ["libGoogleAnalyticsServices.jar"],
     "injectionXML": "manifest.xml",
 	"injectionXSL": "manifest.xsl"
 }
