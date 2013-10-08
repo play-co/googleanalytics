@@ -1,5 +1,7 @@
 #import "GoogleAnalyticsPlugin.h"
 #import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 #import "JSONKit.h"
 
 @implementation GoogleAnalyticsPlugin
@@ -24,12 +26,21 @@
 		NSDictionary *ios = [manifest valueForKey:@"ios"];
 		NSString *trackingId = [ios valueForKey:@"googleTrackingID"];
 
+		[[GAI sharedInstance].logger setLogLevel:kGAILogLevelVerbose];
+
 		// Initialize Google Analytics with a 120-second dispatch interval. There is a
 		// tradeoff between battery usage and timely dispatch.
-		[GAI sharedInstance].debug = YES;
-		[GAI sharedInstance].dispatchInterval = 120;
+		//[GAI sharedInstance].dispatchInterval = 120;
+
 		[GAI sharedInstance].trackUncaughtExceptions = YES;
 		self.tracker = [[GAI sharedInstance] trackerWithTrackingId:trackingId];
+
+		[self.tracker set:kGAIUseSecure value:[@NO stringValue]];
+
+		[self.tracker send:[[[GAIDictionaryBuilder createEventWithCategory:@"UX"
+                                                           action:@"appstart"
+                                                            label:nil
+                                                            value:nil] set:@"start" forKey:kGAISessionControl] build]];
 
 		NSLog(@"{googleAnalytics} Initialized with manifest googleTrackingID: '%@'", trackingId);
 	}
@@ -48,19 +59,19 @@
 			NSString *key0 = [[evtParams allKeys] objectAtIndex:0];
 			NSString *value0 = [[evtParams allValues] objectAtIndex:0];
 
-			[self.tracker sendEventWithCategory:eventName
+			[self.tracker send:[[GAIDictionaryBuilder createEventWithCategory:eventName
 									 withAction:key0
 									  withLabel:value0
-									  withValue:nil];
+									  withValue:nil] build]];
 
 			NSLOG(@"{googleAnalytics} Delivered event '%@' : action=%@ label=%@", eventName, key0, value0);
 		} else {
 			NSString *jsonString = [evtParams JSONString];
 
-			[self.tracker sendEventWithCategory:eventName
+			[self.tracker send:[[GAIDictionaryBuilder createEventWithCategory:eventName
 									 withAction:@"JSON"
 									  withLabel:jsonString
-									  withValue:nil];
+									  withValue:nil] build]];
 
 			NSLOG(@"{googleAnalytics} Delivered event '%@' : action=JSON label=%@", eventName, jsonString);
 		}
@@ -71,7 +82,8 @@
 }
 
 - (void) trackScreen:(NSString *)screenName {
-	[self.tracker sendView:screenName];
+	[self.tracker set:kGAIScreenName value:screenName];
+	[self.tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 @end

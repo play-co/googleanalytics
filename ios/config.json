@@ -5,11 +5,14 @@
 		"GAITracker.h",
 		"GAITransaction.h",
 		"GAITransactionItem.h",
+		"GAIDictionaryBuilder.h",
+		"GAIFields.h",
+		"GAILogger.h",
 		"GoogleAnalyticsPlugin.h",
 		"GoogleAnalyticsPlugin.mm"
 	],
 	"frameworks": [
 		"CoreData",
-		"libGoogleAnalytics.a"
+		"libGoogleAnalyticsServices.a"
 	]
 }
