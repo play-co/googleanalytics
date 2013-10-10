@@ -62,53 +62,54 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 	}
 
     public void track(final String json) {
-		final Tracker tracker = mGATracker;
+		if (mGaTracker != null) {
+			new Thread(new Runnable() {
+				public void run() {
+					String eventName = "noName";
+					try {
+						JSONObject obj = new JSONObject(json);
+						eventName = obj.getString("eventName");
+						JSONObject paramsObj = obj.getJSONObject("params");
+						Iterator<String> iter = paramsObj.keys();
 
-		new Thread(new Runnable() {
-			public void run() {
+						if (paramsObj.length() == 1) {
+							String key = iter.next();
+							String value = null;
+							try {
+								value = paramsObj.getString(key);
+							} catch (JSONException e) {
+								logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
+							}
 
-				String eventName = "noName";
-				try {
-					JSONObject obj = new JSONObject(json);
-					eventName = obj.getString("eventName");
-					JSONObject paramsObj = obj.getJSONObject("params");
-					Iterator<String> iter = paramsObj.keys();
-
-					if (paramsObj.length() == 1) {
-						String key = iter.next();
-						String value = null;
-						try {
-							value = paramsObj.getString(key);
-						} catch (JSONException e) {
-							logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
-						}
-
-						tracker.send(MapBuilder
-							.createEvent(eventName, key, value, null)
-							.build()
-							);
-						logger.log("{googleAnalytics} track - success: category=", eventName, "action=", key, "label=", value);
-					} else {
-						String value = paramsObj.toString();
-						tracker.send(MapBuilder
-								.createEvent(eventName, "JSON", value, null)
+							mGaTracker.send(MapBuilder
+								.createEvent(eventName, key, value, null)
 								.build()
 								);
-						logger.log("{googleAnalytics} track - success: category=", eventName, "action='JSON' label=", value);
+							logger.log("{googleAnalytics} track - success: category=", eventName, "action=", key, "label=", value);
+						} else {
+							String value = paramsObj.toString();
+							mGaTracker.send(MapBuilder
+									.createEvent(eventName, "JSON", value, null)
+									.build()
+									);
+							logger.log("{googleAnalytics} track - success: category=", eventName, "action='JSON' label=", value);
+						}
+
+					} catch (JSONException e) {
+						logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
 					}
 
-				} catch (JSONException e) {
-					logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
 				}
-
-			}
-		}).start();
+			}).start();
+		}
     }
 
 	public void trackScreen(String screenName) {
-		mGaTracker.set(Fields.SCREEN_NAME, screenName);
+		if (mGaTracker != null) {
+			mGaTracker.set(Fields.SCREEN_NAME, screenName);
 
-		mGaTracker.send(MapBuilder.createAppView().build());
+			mGaTracker.send(MapBuilder.createAppView().build());
+		}
 	}
 
 	public void onResume() {
