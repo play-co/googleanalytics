@@ -62,6 +62,8 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 	}
 
     public void track(final String json) {
+		final Tracker tracker = mGATracker;
+
 		new Thread(new Runnable() {
 			public void run() {
 
@@ -81,14 +83,14 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 							logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
 						}
 
-						mGaTracker.send(MapBuilder
+						tracker.send(MapBuilder
 							.createEvent(eventName, key, value, null)
 							.build()
 							);
 						logger.log("{googleAnalytics} track - success: category=", eventName, "action=", key, "label=", value);
 					} else {
 						String value = paramsObj.toString();
-						mGaTracker.send(MapBuilder
+						tracker.send(MapBuilder
 								.createEvent(eventName, "JSON", value, null)
 								.build()
 								);
