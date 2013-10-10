@@ -60,18 +60,18 @@
 			NSString *value0 = [[evtParams allValues] objectAtIndex:0];
 
 			[self.tracker send:[[GAIDictionaryBuilder createEventWithCategory:eventName
-									 withAction:key0
-									  withLabel:value0
-									  withValue:nil] build]];
+									 action:key0
+									  label:value0
+									  value:nil] build]];
 
 			NSLOG(@"{googleAnalytics} Delivered event '%@' : action=%@ label=%@", eventName, key0, value0);
 		} else {
 			NSString *jsonString = [evtParams JSONString];
 
 			[self.tracker send:[[GAIDictionaryBuilder createEventWithCategory:eventName
-									 withAction:@"JSON"
-									  withLabel:jsonString
-									  withValue:nil] build]];
+									 action:@"JSON"
+									  label:jsonString
+									  value:nil] build]];
 
 			NSLOG(@"{googleAnalytics} Delivered event '%@' : action=JSON label=%@", eventName, jsonString);
 		}
