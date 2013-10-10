@@ -61,41 +61,46 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 				);
 	}
 
-    public void track(String json) {
-		// TODO: Fix this
-        String eventName = "noName";
-        try {
-            JSONObject obj = new JSONObject(json);
-            eventName = obj.getString("eventName");
-            JSONObject paramsObj = obj.getJSONObject("params");
-            Iterator<String> iter = paramsObj.keys();
+    public void track(final String json) {
+		new Thread(new Runnable() {
+			public void run() {
 
-			if (paramsObj.length() == 1) {
-				String key = iter.next();
-				String value = null;
+				String eventName = "noName";
 				try {
-					value = paramsObj.getString(key);
+					JSONObject obj = new JSONObject(json);
+					eventName = obj.getString("eventName");
+					JSONObject paramsObj = obj.getJSONObject("params");
+					Iterator<String> iter = paramsObj.keys();
+
+					if (paramsObj.length() == 1) {
+						String key = iter.next();
+						String value = null;
+						try {
+							value = paramsObj.getString(key);
+						} catch (JSONException e) {
+							logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
+						}
+
+						mGaTracker.send(MapBuilder
+							.createEvent(eventName, key, value, null)
+							.build()
+							);
+						logger.log("{googleAnalytics} track - success: category=", eventName, "action=", key, "label=", value);
+					} else {
+						String value = paramsObj.toString();
+						mGaTracker.send(MapBuilder
+								.createEvent(eventName, "JSON", value, null)
+								.build()
+								);
+						logger.log("{googleAnalytics} track - success: category=", eventName, "action='JSON' label=", value);
+					}
+
 				} catch (JSONException e) {
 					logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
 				}
 
-				mGaTracker.send(MapBuilder
-						.createEvent(eventName, key, value, null)
-						.build()
-						);
-				logger.log("{googleAnalytics} track - success: category=", eventName, "action=", key, "label=", value);
-			} else {
-				String value = paramsObj.toString();
-				mGaTracker.send(MapBuilder
-						.createEvent(eventName, "JSON", value, null)
-						.build()
-						);
-				logger.log("{googleAnalytics} track - success: category=", eventName, "action='JSON' label=", value);
 			}
-
-        } catch (JSONException e) {
-            logger.log("{googleAnalytics} track - failure: " + eventName + " - " + e.getMessage());
-        }
+		}).start();
     }
 
 	public void trackScreen(String screenName) {
