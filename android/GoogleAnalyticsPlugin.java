@@ -50,7 +50,7 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 		logger.log("{googleAnalytics} Initializing from manifest with googleTrackingID=", trackingID);
 
 		mGaInstance = GoogleAnalytics.getInstance(activity);
-		mGaInstance.getLogger().setLogLevel(LogLevel.VERBOSE);
+		//mGaInstance.getLogger().setLogLevel(LogLevel.VERBOSE);
 
 		mGaTracker = mGaInstance.getTracker(trackingID);
 

@@ -26,7 +26,7 @@
 		NSDictionary *ios = [manifest valueForKey:@"ios"];
 		NSString *trackingId = [ios valueForKey:@"googleTrackingID"];
 
-		[[GAI sharedInstance].logger setLogLevel:kGAILogLevelVerbose];
+		//[[GAI sharedInstance].logger setLogLevel:kGAILogLevelVerbose];
 
 		// Initialize Google Analytics with a 120-second dispatch interval. There is a
 		// tradeoff between battery usage and timely dispatch.
