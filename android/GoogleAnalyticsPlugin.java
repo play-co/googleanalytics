@@ -62,7 +62,7 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 	}
 
     public void track(final String json) {
-		final Tracker tracker = mGATracker;
+		final Tracker tracker = mGaTracker;
 
 		new Thread(new Runnable() {
 			public void run() {
