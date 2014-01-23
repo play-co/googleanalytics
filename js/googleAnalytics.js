@@ -7,7 +7,6 @@ var GoogleAnalytics = Class(function () {
 		this._globalProperties = {};
 
 		if (device.isSafari && !device.isSimulator && !window.weebyGoogleAnalyticsLoaded) {
-			console.log("*** *** *** LOAD googleAnalytics");
 			window.weebyGoogleAnalyticsLoaded = true;
 			this._loadTrackingForWeb();
 		}
@@ -40,19 +39,24 @@ var GoogleAnalytics = Class(function () {
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-			ga('create', 'UA-47369514-1', 'wee.by');
+			console.log('googleAnalytics addon [info]: create - ' + CONFIG.addons.googleanalytics.trackingId + ' - ' + CONFIG.addons.googleanalytics.url);
+			ga('create', CONFIG.addons.googleanalytics.trackingId, CONFIG.addons.googleanalytics.url);
 			ga('send', 'pageview');
 		} catch (err) {
-			console.log("*** *** ***" + err.message);
+			console.log("googleAnalytics addon [error]: " + err.message);
 		}
 	}
 
 	this.trackPage = function(page, displayTitle) {
-		ga('send', {
-			'hitType': 'pageview',
-			'page': '/' + page,
-			'title': displayTitle
-		});
+		if (window.ga) {
+			ga('send', {
+				'hitType': 'pageview',
+				'page': '/' + page,
+				'title': displayTitle
+			});
+		} else {
+			console.log('googleAnalytics addon [warn]: googleAnalytics object is not defined.');
+		}
 	}
 });
 
