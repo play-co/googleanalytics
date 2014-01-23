@@ -6,7 +6,7 @@ var GoogleAnalytics = Class(function () {
 	this.init = function () {
 		this._globalProperties = {};
 
-		if (device.isSafari && !device.isSimulator && !window.weebyGoogleAnalyticsLoaded) {
+		if (device.isMobileBrowser && !device.isSimulator && !window.weebyGoogleAnalyticsLoaded) {
 			window.weebyGoogleAnalyticsLoaded = true;
 			this._loadTrackingForWeb();
 		}
