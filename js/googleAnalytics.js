@@ -55,7 +55,7 @@ var GoogleAnalytics = Class(function () {
 				'title': displayTitle
 			});
 		} else {
-			console.log('googleAnalytics addon [warn]: googleAnalytics object is not defined.');
+			console.log('googleAnalytics addon [warn]: googleAnalytics object is not defined. Not tracking page: ' + page);
 		}
 	}
 });
