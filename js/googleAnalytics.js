@@ -58,6 +58,20 @@ var GoogleAnalytics = Class(function () {
 			console.log('googleAnalytics addon [warn]: googleAnalytics object is not defined. Not tracking page: ' + page);
 		}
 	}
+
+	this.trackEvent = function(category, action, label, value) {
+		if (window.ga) {
+			ga('send', {
+				'hitType': 'event',
+				'eventCategory': category,
+				'eventAction': action,
+				'eventLabel': label,
+				'value': value || 0
+			});
+		} else {
+			console.log('googleAnalytics addon [warn]: googleAnalytics object is not defined. Not tracking event: ' + [category, action, label].join(':'));
+		}
+	}
 });
 
 exports = new GoogleAnalytics();
