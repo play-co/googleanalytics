@@ -10,7 +10,7 @@ var GoogleAnalytics = Class(function () {
 			window.weebyGoogleAnalyticsLoaded = true;
 			this._loadTrackingForWeb();
 		}
-	}
+	};
 
 	this.track = function (name, data) {
 		// copy in global properties
@@ -28,9 +28,19 @@ var GoogleAnalytics = Class(function () {
 		}
 	};
 
+	this.trackScreen = function(name) {
+		if (DEBUG) {
+			logger.log("trackScreen: ", name);
+		}
+
+		if (hasNativeEvents) {
+			NATIVE.plugins.sendEvent("GoogleAnalyticsPlugin", "trackScreen", name);
+		}
+	};
+
 	this.setGlobalProperty = function (key, value) {
 		this._globalProperties[key] = value;
-	}
+	};
 
 	this._loadTrackingForWeb = function() {
 		try {
@@ -45,7 +55,7 @@ var GoogleAnalytics = Class(function () {
 		} catch (err) {
 			console.log("googleAnalytics addon [error]: " + err.message);
 		}
-	}
+	};
 
 	this.trackPage = function(page, displayTitle) {
 		if (window.ga) {
@@ -57,7 +67,7 @@ var GoogleAnalytics = Class(function () {
 		} else {
 			console.log('googleAnalytics addon [warn]: googleAnalytics object is not defined. Not tracking page: ' + page);
 		}
-	}
+	};
 
 	this.trackEvent = function(category, action, label, value) {
 		if (window.ga) {
@@ -71,7 +81,7 @@ var GoogleAnalytics = Class(function () {
 		} else {
 			console.log('googleAnalytics addon [warn]: googleAnalytics object is not defined. Not tracking event: ' + [category, action, label].join(':'));
 		}
-	}
+	};
 });
 
 exports = new GoogleAnalytics();

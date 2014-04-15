@@ -109,6 +109,7 @@ public class GoogleAnalyticsPlugin implements IPlugin {
 			mGaTracker.set(Fields.SCREEN_NAME, screenName);
 
 			mGaTracker.send(MapBuilder.createAppView().build());
+			logger.log("{googleAnalytics} trackScreen - success: screen=", screenName);
 		}
 	}
 
