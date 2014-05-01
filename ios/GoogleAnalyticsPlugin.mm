@@ -3,6 +3,7 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 #import "JSONKit.h"
+#import "platform/log.h"
 
 @implementation GoogleAnalyticsPlugin
 
@@ -42,10 +43,10 @@
                                                             label:nil
                                                             value:nil] set:@"start" forKey:kGAISessionControl] build]];
 
-		NSLog(@"{googleAnalytics} Initialized with manifest googleTrackingID: '%@'", trackingId);
+		NSLOG(@"{googleAnalytics} Initialized with manifest googleTrackingID: '%@'", trackingId);
 	}
 	@catch (NSException *exception) {
-		NSLog(@"{googleAnalytics} Failure to get ios:googleTrackingID key from manifest file: %@", exception);
+		NSLOG(@"{googleAnalytics} Failure to get ios:googleTrackingID key from manifest file: %@", exception);
 	}
 }
 
