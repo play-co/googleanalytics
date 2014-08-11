@@ -39,8 +39,8 @@ var GoogleAnalytics = Class(function () {
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-			console.log('googleAnalytics addon [info]: create - ' + CONFIG.addons.googleanalytics.trackingId + ' - ' + CONFIG.addons.googleanalytics.url);
-			ga('create', CONFIG.addons.googleanalytics.trackingId, CONFIG.addons.googleanalytics.url);
+			console.log('googleAnalytics addon [info]: create - ' + CONFIG.modules.googleanalytics.trackingId + ' - ' + CONFIG.modules.googleanalytics.url);
+			ga('create', CONFIG.modules.googleanalytics.trackingId, CONFIG.modules.googleanalytics.url);
 			ga('send', 'pageview');
 		} catch (err) {
 			console.log("googleAnalytics addon [error]: " + err.message);
