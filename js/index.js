@@ -1,12 +1,12 @@
-import device;
+import userAgent;
 
 var hasNativeEvents = NATIVE && NATIVE.plugins && NATIVE.plugins.sendEvent;
 
 var GoogleAnalytics = Class(function () {
 	this.init = function () {
 		this._globalProperties = {};
-
-		if (device.isMobileBrowser && !device.isSimulator && !window.weebyGoogleAnalyticsLoaded) {
+		var isNative = userAgent.APP_RUNTIME === 'native';
+		if (!isNative && !userAgent.SIMULATED && !window.weebyGoogleAnalyticsLoaded) {
 			window.weebyGoogleAnalyticsLoaded = true;
 			this._loadTrackingForWeb();
 		}
