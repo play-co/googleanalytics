@@ -66,7 +66,7 @@ var GoogleAnalytics = Class(function () {
 				'eventCategory': category,
 				'eventAction': action,
 				'eventLabel': label,
-				'value': value || 0
+				'eventValue': value || 0
 			});
 		} else {
 			console.log('googleAnalytics addon [warn]: googleAnalytics object is not defined. Not tracking event: ' + [category, action, label].join(':'));
