@@ -39,8 +39,16 @@ var GoogleAnalytics = Class(function () {
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-			console.log('googleAnalytics addon [info]: create - ' + CONFIG.modules.googleanalytics.trackingId + ' - ' + CONFIG.modules.googleanalytics.url);
-			ga('create', CONFIG.modules.googleanalytics.trackingId, CONFIG.modules.googleanalytics.url);
+			var trackingReleaseConfig = CONFIG.modules.googleanalytics['release'];
+			var trackingDebugConfig = CONFIG.modules.googleanalytics['debug'];
+			var trackingConfig = DEBUG ? trackingDebugConfig : trackingReleaseConfig;
+
+			if(!trackingConfig) {
+				trackingConfig = CONFIG.modules.googleanalytics;
+			}
+
+			console.log('googleAnalytics addon [info]: create - ' + trackingConfig.trackingId + ' - ' + trackingConfig.url);
+			ga('create', trackingConfig.trackingId, trackingConfig.url);
 			ga('send', 'pageview');
 		} catch (err) {
 			console.log("googleAnalytics addon [error]: " + err.message);
